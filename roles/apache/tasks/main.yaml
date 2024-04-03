@@ -1,0 +1,44 @@
+---
+#UBUNTU OS TASKS
+- name: Task to install Apache2 on Ubuntu
+  apt:
+    name: apache2
+    state: present
+  notify: handler to start Apache2
+  when: ansible_os_family == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Task to backup Apache2 default site configuration
+  copy:
+    src: /etc/apache2/sites-available/000-default.conf
+    dest: /etc/apache2/sites-available/000-default.conf.bak
+    remote_src: yes
+  when: ansible_os_family == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Task to update Apache2 DocumentRoot for Ubuntu
+  template:
+    src: 000-default.conf.j2
+    dest: /etc/apache2/sites-available/000-default.conf
+  notify: handler to restart Apache2
+  when: ansible_os_family == 'Debian' or ansible_distribution == 'Ubuntu'
+
+#CENTOS TASKS
+- name: Task to install httpd on centos
+  yum:
+    name: httpd
+    state: present
+  notify: handler to enable Apache2
+  when: ansible_os_family == 'RedHat' or ansible_distribution == 'CentOS'
+
+- name: Task to backup httpd default site configuration
+  copy:
+    src: /etc/httpd/conf/httpd.conf
+    dest: /etc/httpd/conf/httpd.conf.bak
+    remote_src: yes
+  when: ansible_os_family == 'RedHat' or ansible_distribution == 'Centos'
+
+- name: Task to update httpd DocumentRoot for CentOS
+  template:
+    src: httpd.conf.j2
+    dest: /etc/httpd/conf/httpd.conf
+  notify: handler to restart Apache2
+  when: ansible_os_family == 'RedHat' or ansible_distribution == 'CentOS'

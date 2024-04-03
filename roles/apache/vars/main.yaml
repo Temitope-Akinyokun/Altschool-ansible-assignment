@@ -1,0 +1,4 @@
+---
+default_variables_for_roles: "This is default variables for roles"
+apache_service:  "{{ 'apache2' if ansible_distribution == 'Ubuntu' else 'httpd' }}"
+apache_default_conf_path: /etc/apache2/sites-available/000-default.conf

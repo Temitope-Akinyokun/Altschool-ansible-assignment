@@ -1,0 +1,7 @@
+---
+- name: create directory
+  hosts: all
+  become: true
+  roles:
+    - apache
+    - git

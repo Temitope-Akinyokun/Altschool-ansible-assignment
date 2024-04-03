@@ -1,0 +1,13 @@
+---
+- name: Task to clone app repository from GitHub
+  git:
+    repo: https://github.com/Temitope-Akinyokun/tindog.git
+    dest: /tmp/repo_clone
+    clone: yes
+    accept_hostkey: yes
+
+- name: Task to copy contents of  repo_clone to apache  document root
+  copy:
+    src: /tmp/repo_clone
+    dest: /var/www/repo_clone
+    remote_src: yes

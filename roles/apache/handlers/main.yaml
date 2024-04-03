@@ -1,0 +1,16 @@
+---
+- name: handler to restart Apache2
+  service:
+     name: "{{ apache_service }}"
+     state: restarted
+
+- name: handler to enable Apache2
+  service:
+     name: "{{ apache_service }}"
+     state: enabled
+
+- name: handler to start Apache2
+  service:
+     name: "{{ apache_service }}"
+     state: started
+  when: apache2_status == 'stopped' or httpd_status == 'stopped'

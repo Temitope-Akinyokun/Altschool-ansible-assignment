@@ -1,0 +1,13 @@
+---
+- name: Backup Apache default site configuration
+      copy:
+        src: "{{ apache_default_conf_path }}"
+        dest: /etc/apache2/sites-available/000-default.conf.bak
+      register: backup_result
+      changed_when: backup_result is changed
+
+- name: Update DocumentRoot in Apache configuration
+      template:
+        src: 000-default.conf.j2
+        dest: "{{ apache_default_conf_path }}"
+      notify: handler to restart Apache2
